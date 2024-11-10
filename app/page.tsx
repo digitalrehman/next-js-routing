@@ -1,101 +1,127 @@
-import Image from "next/image";
+"use client";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { Menu, X, ChevronDown } from 'lucide-react';
 
-export default function Home() {
+const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <header className="relative">
+      <nav className="bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center">
+                <span className="text-2xl font-bold text-blue-900">GIAIC</span>
+              </Link>
+            </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <div className="hidden md:flex items-center space-x-4">
+              <Link href="/" className="text-gray-700 hover:text-blue-900 px-3 py-2 rounded-md text-sm font-medium">
+                Home
+              </Link>
+
+              <div className="relative" onMouseLeave={() => setIsDropdownOpen(false)}>
+                <button
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                  className="text-gray-700 hover:text-blue-900 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center"
+                >
+                  Services
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
+
+                {isDropdownOpen && (
+                  <div className="absolute z-10 -ml-4 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div className="py-2" role="menu">
+                      <Link href="/services/web" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Web Development
+                      </Link>
+                      <Link href="/services/mobile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Mobile Development
+                      </Link>
+                      <Link href="/services/cloud" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Cloud Services
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Link href="./services" className="text-gray-700 hover:text-blue-900 px-3 py-2 rounded-md text-sm font-medium">
+                About
+              </Link>
+              <Link href="/contact" className="text-gray-700 hover:text-blue-900 px-3 py-2 rounded-md text-sm font-medium">
+                Contact
+              </Link>
+              <Link href="/login" className="bg-blue-900 text-white hover:bg-blue-800 px-4 py-2 rounded-md text-sm font-medium">
+                Login
+              </Link>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-900"
+              >
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Mobile menu */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-900 hover:bg-gray-50">
+                Home
+              </Link>
+              <Link href="/services" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-900 hover:bg-gray-50">
+                Services
+              </Link>
+              <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-900 hover:bg-gray-50">
+                About
+              </Link>
+              <Link href="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-900 hover:bg-gray-50">
+                Contact
+              </Link>
+              <Link href="/login" className="block px-3 py-2 rounded-md text-base font-medium bg-blue-900 text-white hover:bg-blue-800">
+                Login
+              </Link>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-700">
+        <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
+              <span className="block">Transform Your Business</span>
+              <span className="block text-blue-200">With Digital Solutions</span>
+            </h1>
+            <p className="mt-3 max-w-md mx-auto text-base text-blue-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+              We help businesses grow by providing innovative digital solutions tailored to their needs.
+            </p>
+            <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+              <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5">
+                <Link href="/contact" className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-blue-900 bg-white hover:bg-blue-50 sm:px-8">
+                  Get Started
+                </Link>
+                <Link href="/services" className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-800 bg-opacity-60 hover:bg-opacity-70 sm:px-8">
+                  Learn More
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
   );
-}
+};
+
+export default Header;
